@@ -9,6 +9,9 @@ if [[ $EUID -ne 0 ]]; then
 	echo "Try \"sudo $0\""	
 	exit 1
 fi
+
+# move the prepared wpa_supplicant conf file to the correct place
+mv $(pwd)/wpa_supplicant-wlan0.conf_tobemoved /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 	
 ## Change over to systemd-networkd
 ## https://raspberrypi.stackexchange.com/questions/108592
@@ -30,15 +33,6 @@ cat > /etc/systemd/network/04-${interfaceWired}.network <<-EOF
 	Name=$interfaceWired
 	[Network]
 	DHCP=yes
-EOF
-
-cat > /etc/systemd/network/08-${interfaceWifi}-CLI.network <<-EOF
-	[Match]
-	Name=$interfaceWifi
-	[Network]
-	DHCP=yes
-	LinkLocalAddressing=yes
-	MulticastDNS=yes
 EOF
 		
 cat > /etc/systemd/network/12-${interfaceWifi}-AP.network <<-EOF
@@ -66,7 +60,7 @@ if [ ! -f /etc/systemd/system/wpa_cli@${interfaceWifi}.service ] ; then
 		After=wpa_supplicant@%i.service
 		BindsTo=wpa_supplicant@%i.service
 		[Service]
-		ExecStart=/sbin/wpa_cli -i %I -a /usr/local/sbin/auto-hotspot
+		ExecStart=/usr/local/sbin/auto-hotspot
 		Restart=on-failure
 		RestartSec=1
 		[Install]

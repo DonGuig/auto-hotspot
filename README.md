@@ -1,7 +1,9 @@
 # Auto Access Point
-This script is intended for the Raspeberry Pi. It will automatically create a hotspot, if there is no known wifi nearby. 
-Therefore it will use [`systemd-networkd`][1], `wpa_supplicant` and `wpa_cli`.
-If no device is connected to the hotspot for a while it will search for neworks again.
+This script is intended for the Raspeberry Pi. It will automatically create a hotspot, based on the given conf file. 
+It will use [`systemd-networkd`][1], `wpa_supplicant` and `wpa_cli`.
+The hotspot will be purely local, no internet connection.
+
+[Not Tested] Check if ethernet connectivity also works
 
 You need to have a wpa_supplicant-_device_.conf file similiar to this.
 
@@ -21,17 +23,11 @@ network={
     frequency=2462                                                               
 }
 
-### your network(s) ###    
-network={                                                                                                                               
-    ssid="yourWifi"
-    psk="passphrase"                                                 
-} 
 ```
 
-After having installed the script (see below) you can start a hotspot manually by running `auto-hotspot --start-ap` 
-and stop it with `--stop-ap`.
+After having installed the script (see below) you can start a hotspot manually by running `auto-hotspot` 
 
-If there is a wired network connection the Pi will work as a repeater
+[Not tested] If there is a wired network connection the Pi will work as a repeater
 
 How it works is also discussed here: 
 https://raspberrypi.stackexchange.com/questions/100195
@@ -40,7 +36,7 @@ https://raspberrypi.stackexchange.com/questions/100195
 ## Install
 
 ```
-git clone https://github.com/0unknwn/auto-hotspot.git
+git clone https://github.com/DonGuig/auto-hotspot.git
 cd auto-hotspot
 chmod +x auto-hotspot install.sh
 sudo ./install.sh

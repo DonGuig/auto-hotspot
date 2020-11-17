@@ -1,0 +1,16 @@
+#this conf file is to be moved to the correct place by the install script:
+
+country=FR                                                                        
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev                           
+update_config=1                                                                   
+ap_scan=1
+
+### auto hotspot ###      # has to be the first network section!                                                                                  
+network={
+    priority=0          
+    ssid="ssid"    # your access point's name                                                            
+    mode=2                                                                       
+    key_mgmt=WPA-PSK                                                             
+    psk="password"      # your access point's password                                    
+    frequency=2462                                                               
+}
